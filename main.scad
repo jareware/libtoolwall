@@ -3,6 +3,7 @@ $fn = 100; // see https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Other_Langu
 WALL_ATT_THICK = 3;
 WALL_ATT_ROUND = 1;
 SCREW_DIAM = 3.5;
+CUTOFF_MARGIN = 1;
 
 module roundedCube(x, y, z, r = 0) {
     translate([ r, r, r ]) {
@@ -69,8 +70,54 @@ module hook(
     roundedCube(width, secondaryLength + thickness, thickness, rounding);
 }
 
-wallAttachment(30, 10, 3, 1);
+module halfCylinder(height, r) {
+    difference() {
+        // Cylinder itself:
+        cylinder(height, r = r);
+        // Cutoff part
+        translate([ 0, -r, -CUTOFF_MARGIN ])
+        cube([ r, r * 2, height + CUTOFF_MARGIN * 2 ]);
+    }
+}
 
-translate([ 10, 2, 0 ])
-color("red")
-hook(30, 20, 10);
+module pieSlice(height, r, angle) {
+    if (angle < 180) {
+        difference() {
+            halfCylinder(height, r = r);
+            rotate([ 0, 0, angle ])
+            translate([ 0, 0, -CUTOFF_MARGIN ])
+            halfCylinder(height + CUTOFF_MARGIN * 2, r = r + CUTOFF_MARGIN);
+        }
+    } else if (angle <= 360) {
+        halfCylinder(height, r = r);
+        rotate([ 0, 0, angle - 180 ])
+        halfCylinder(height, r = r);
+    }
+}
+
+module bentCube(
+    x,
+    y1
+) {
+    color("red")
+    cube([ x, y1, 7 ]);
+
+    translate([ 0, y1, 28 ])
+    rotate([ -90, 0, 0 ])
+    rotate([ 0, 90, 0 ])
+    {
+        color("green")
+        difference() {
+            pieSlice(x, 28, 120);
+            translate([ 0, 0, -CUTOFF_MARGIN ])
+            cylinder(x + CUTOFF_MARGIN * 2, r = 28 - 7);
+        }
+
+        color("blue")
+        rotate([ 0, 0, 120 ])
+        translate([ -26, 28 - 7, 0 ])
+        cube([ 26, 7, x ]);
+    }
+}
+
+bentCube(23, 13);
