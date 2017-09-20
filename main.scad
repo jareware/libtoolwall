@@ -97,27 +97,31 @@ module pieSlice(height, r, angle) {
 
 module bentCube(
     x,
-    y1
+    y1,
+    r,
+    deg,
+    y2,
+    z
 ) {
     color("red")
-    cube([ x, y1, 7 ]);
+    cube([ x, y1, z ]);
 
-    translate([ 0, y1, 28 ])
+    translate([ 0, y1, r ])
     rotate([ -90, 0, 0 ])
     rotate([ 0, 90, 0 ])
     {
         color("green")
         difference() {
-            pieSlice(x, 28, 120);
+            pieSlice(x, r, deg);
             translate([ 0, 0, -CUTOFF_MARGIN ])
-            cylinder(x + CUTOFF_MARGIN * 2, r = 28 - 7);
+            cylinder(x + CUTOFF_MARGIN * 2, r = r - z);
         }
 
         color("blue")
-        rotate([ 0, 0, 120 ])
-        translate([ -26, 28 - 7, 0 ])
-        cube([ 26, 7, x ]);
+        rotate([ 0, 0, deg ])
+        translate([ -y2, r - z, 0 ])
+        cube([ y2, z, x ]);
     }
 }
 
-bentCube(23, 13);
+bentCube(x = 23, y1 = 13, r = 25, deg = 75, y2 = 16, z = 10);
