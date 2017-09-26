@@ -14,27 +14,6 @@ module roundedCube(x, y, z, r = 0) {
     }
 }
 
-module distributedHoles(
-    x,
-    y = 0,
-    count = 2,
-    d = 1,
-    padding = 0,
-    holeHeight = 100
-) {
-    z = holeHeight / -2;
-    if (count == 1) {
-        translate([ x / 2, y / 2, z ]) cylinder(holeHeight, r = d / 2);
-    } else {
-        for (i = [ 0 : count - 1 ]) {
-            availableWidth = x - padding * 2 - d;
-            x = d / 2 + padding + availableWidth / (count - 1) * i;
-            y = y / 2;
-            translate([ x, y, z ]) cylinder(holeHeight, r = d / 2);
-        }
-    }
-}
-
 module wallAttachment(
     width,
     height,
