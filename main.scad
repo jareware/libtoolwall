@@ -69,34 +69,3 @@ module hook(
     translate([ 0, 0, distanceFromWall - thickness ])
     roundedCube(width, secondaryLength + thickness, thickness, rounding);
 }
-
-module bentCube(
-    x,
-    y1,
-    r,
-    deg,
-    y2,
-    z
-) {
-    color("red")
-    cube([ x, y1, z ]);
-
-    translate([ 0, y1, r ])
-    rotate([ -90, 0, 0 ])
-    rotate([ 0, 90, 0 ])
-    {
-        color("green")
-        difference() {
-            pieSlice(x, r, deg);
-            translate([ 0, 0, -CUTOFF_MARGIN ])
-            cylinder(x + CUTOFF_MARGIN * 2, r = r - z);
-        }
-
-        color("blue")
-        rotate([ 0, 0, deg ])
-        translate([ -y2, r - z, 0 ])
-        cube([ y2, z, x ]);
-    }
-}
-
-bentCube(x = 23, y1 = 13, r = 25, deg = 75, y2 = 16, z = 10);
