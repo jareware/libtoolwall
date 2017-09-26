@@ -70,21 +70,6 @@ module hook(
     roundedCube(width, secondaryLength + thickness, thickness, rounding);
 }
 
-module pieSlice(height, r, angle) {
-    if (angle < 180) {
-        difference() {
-            halfCylinder(height, r = r);
-            rotate([ 0, 0, angle ])
-            translate([ 0, 0, -CUTOFF_MARGIN ])
-            halfCylinder(height + CUTOFF_MARGIN * 2, r = r + CUTOFF_MARGIN);
-        }
-    } else if (angle <= 360) {
-        halfCylinder(height, r = r);
-        rotate([ 0, 0, angle - 180 ])
-        halfCylinder(height, r = r);
-    }
-}
-
 module bentCube(
     x,
     y1,
