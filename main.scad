@@ -70,16 +70,6 @@ module hook(
     roundedCube(width, secondaryLength + thickness, thickness, rounding);
 }
 
-module halfCylinder(height, r) {
-    difference() {
-        // Cylinder itself:
-        cylinder(height, r = r);
-        // Cutoff part
-        translate([ 0, -r, -CUTOFF_MARGIN ])
-        cube([ r, r * 2, height + CUTOFF_MARGIN * 2 ]);
-    }
-}
-
 module pieSlice(height, r, angle) {
     if (angle < 180) {
         difference() {
