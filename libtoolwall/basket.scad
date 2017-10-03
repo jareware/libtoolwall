@@ -1,21 +1,23 @@
 include <../config.scad>;
 
-use <../primitives/distributeChildren.scad>;
+use <../primitives/roundedCube.scad>;
 use <../utilities/screwHole.scad>;
 
 // Example:
 basket(
-  30,
-  20,
-  5,
-  10
+  width = 30,
+  height = 40,
+  depth = 5,
+  coverHeight = 30,
+  $fn = 20
 );
 
 module basket(
   width,
   height,
   depth,
-  coverHeight
+  coverHeight,
+  rounding = 2
 ) {
 
   outerWidth = width + WALL_THICKNESS * 2;
@@ -23,28 +25,21 @@ module basket(
   outerDepth = depth + WALL_ATTACHMENT_THICKNESS + WALL_THICKNESS;
 
   difference() {
-    translate([ 0, 0, 0 ]) {
+
+    union() {
       // Wall attachment:
-      cube([ outerWidth, outerHeight, WALL_ATTACHMENT_THICKNESS ]);
-
-      // Walls:
-      cube([ outerWidth, WALL_THICKNESS, outerDepth ]);
-      cube([ WALL_THICKNESS, coverHeight, outerDepth ]);
-      translate([ outerWidth - WALL_THICKNESS, 0, 0 ])
-      cube([ WALL_THICKNESS, coverHeight, outerDepth ]);
-
-      // Cover:
-      translate([ 0, 0, outerDepth - WALL_THICKNESS ])
-      cube([ outerWidth, coverHeight, WALL_THICKNESS ]);
+      roundedCube(outerWidth, outerHeight, WALL_ATTACHMENT_THICKNESS, r = rounding, flatBottom = true);
+      // Main container:
+      roundedCube(outerWidth, coverHeight, outerDepth, r = rounding, flatBottom = true);
     }
 
-    translate([ outerWidth / 2, outerHeight / 2, 0 ])
+    // Remove space for contained object:
+    translate([ WALL_THICKNESS, WALL_THICKNESS, WALL_ATTACHMENT_THICKNESS ])
+    cube([ width, height, depth ]);
+
+    // Add screw hole:
+    translate([ outerWidth / 2, coverHeight + (height - coverHeight) / 2, 0 ])
     screwHole();
   }
-
-  // // Test object:
-  // color("red")
-  // translate([ WALL_THICKNESS, WALL_THICKNESS, WALL_ATTACHMENT_THICKNESS ])
-  // cube([ width, height, depth ]);
 
 }
