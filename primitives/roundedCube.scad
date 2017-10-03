@@ -11,7 +11,7 @@ module roundedCube(
   x,
   y,
   z,
-  r,
+  r = 0,
   flatTop = false,
   flatBottom = false,
   flatLeft = false,
