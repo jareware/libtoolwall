@@ -11,8 +11,8 @@ clamp(
   padding = 3,
   bottomExtraSturdiness = 4,
   topExtraSturdiness = 1,
-  middleExtraPadding = -2
-  // $fn = 50
+  middleExtraPadding = -2,
+  extraDistanceFromWall = 3
 );
 
 module clamp(
@@ -22,7 +22,8 @@ module clamp(
   padding,
   bottomExtraSturdiness = 0,
   topExtraSturdiness = 0,
-  middleExtraPadding = 0
+  middleExtraPadding = 0,
+  extraDistanceFromWall = 0
 ) {
 
   wallThickBot = WALL_THICKNESS + bottomExtraSturdiness;
@@ -46,14 +47,20 @@ module clamp(
   translate([ mountWidth / 2 - width / 2, 0, 0 ]) {
 
     // Clamp outward extrusion:
-    roundedCube(width, wallThickBot, WALL_ATTACHMENT_THICKNESS + depth + wallThickTop, r = GLOBAL_ROUNDING, flatBottom = true, flatBack = true);
+    roundedCube(width, wallThickBot, WALL_ATTACHMENT_THICKNESS + extraDistanceFromWall + depth + wallThickTop, r = GLOBAL_ROUNDING, flatBottom = true, flatBack = true);
 
     // Clamp upward extrusion:
-    translate([ 0, 0, WALL_ATTACHMENT_THICKNESS + depth ])
+    translate([ 0, 0, WALL_ATTACHMENT_THICKNESS + extraDistanceFromWall + depth ])
     roundedCube(width, wallThickBot + height, wallThickTop, r = GLOBAL_ROUNDING, flatBottom = true);
 
+    // Object outward extrusion (if selected):
+    if (extraDistanceFromWall > 0) {
+      translate([ padding, 0, 0 ])
+      roundedCube(width - padding * 2, wallThickBot + height, WALL_ATTACHMENT_THICKNESS + extraDistanceFromWall, r = GLOBAL_ROUNDING);
+    }
+
     // Show space for object:
-    translate([ 0, wallThickBot, WALL_ATTACHMENT_THICKNESS ])
+    translate([ 0, wallThickBot, WALL_ATTACHMENT_THICKNESS + extraDistanceFromWall ])
     %cube([ width, height, depth ]);
 
   }
