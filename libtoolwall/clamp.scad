@@ -5,14 +5,15 @@ use <../utilities/screwHole.scad>;
 
 // Example:
 clamp(
-  width = 15,
-  height = 30,
+  width = 20,
+  height = 25,
   depth = 5,
   padding = 3,
   bottomExtraSturdiness = 4,
   topExtraSturdiness = 1,
   middleExtraPadding = -2,
-  extraDistanceFromWall = 3
+  extraDistanceFromWall = 3,
+  $fn = 50
 );
 
 module clamp(
