@@ -4,10 +4,10 @@ SCREW_HEAD_DIAMETER = 6.9;
 SCREW_HEAD_EMBED = 2.8;
 SCREW_ACCESS_DIAMETER = 10;
 SCREW_FREE_SPACE = 100;
-SCREW_ARC_FN = 20; // see https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Other_Language_Features#.24fa.2C_.24fs_and_.24fn
+SCREW_ARC_FN = 30; // see https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Other_Language_Features#.24fa.2C_.24fs_and_.24fn
 
 WALL_ATTACHMENT_THICKNESS = SCREW_MAIN_EMBED + SCREW_HEAD_EMBED;
 WALL_THICKNESS = 3;
 
-SOLID_MERGE_MARGIN = 1;
+SOLID_MERGE_MARGIN = 0.01;
 GLOBAL_ROUNDING = 2;
