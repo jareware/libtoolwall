@@ -11,6 +11,7 @@ clamp(
   bottomExtraSturdiness = 4,
   topExtraSturdiness = 2,
   extraDistanceFromWall = 3,
+  cutoutPadding = 4,
   $fn = 20
 );
 
@@ -20,7 +21,8 @@ module clamp(
   depth,
   bottomExtraSturdiness = 0,
   topExtraSturdiness = 0,
-  extraDistanceFromWall = 0
+  extraDistanceFromWall = 0,
+  cutoutPadding = 0
 ) {
   wallThickBot = WALL_THICKNESS + bottomExtraSturdiness;
   wallThickTop = WALL_THICKNESS + topExtraSturdiness;
@@ -36,6 +38,13 @@ module clamp(
     // Remove space for object:
     translate([ 0, wallThickBot, WALL_ATTACHMENT_THICKNESS + extraDistanceFromWall ])
     cube([ width, height, depth ]);
+
+    // When using extra extrusion, remove some unnecessary volume:
+    if (extraDistanceFromWall) {
+      _cutoutPadding = cutoutPadding ? cutoutPadding : (width - SCREW_ACCESS_DIAMETER) / 2;
+      translate([ _cutoutPadding, wallThickBot, WALL_ATTACHMENT_THICKNESS + SOLID_MERGE_MARGIN ])
+      roundedCube(width - _cutoutPadding * 2, height, extraDistanceFromWall, r = GLOBAL_ROUNDING, flatTop = true, flatFront = true, flatBack = true);
+    }
 
     // Add screw holes:
     translate([ mountWidth / 2, mountHeight - SCREW_ACCESS_DIAMETER / 2 - wallThickBot, 0 ])
