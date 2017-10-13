@@ -40,7 +40,7 @@ module clamp(
     cube([ width, height, depth ]);
 
     // When using extra extrusion, remove some unnecessary volume:
-    if (extraDistanceFromWall) {
+    if (extraDistanceFromWall > GLOBAL_ROUNDING) { // take GLOBAL_ROUNDING into account, because roundedCube gets weird when its dimensions are less than its rounding
       _cutoutPadding = cutoutPadding ? cutoutPadding : (width - SCREW_ACCESS_DIAMETER) / 2;
       translate([ _cutoutPadding, wallThickBot, WALL_ATTACHMENT_THICKNESS + SOLID_MERGE_MARGIN ])
       roundedCube(width - _cutoutPadding * 2, height, extraDistanceFromWall, r = GLOBAL_ROUNDING, flatTop = true, flatFront = true, flatBack = true);
