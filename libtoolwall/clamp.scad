@@ -6,11 +6,12 @@ use <../utilities/autoScrewHoles.scad>;
 // Example:
 clamp(
   width = 20,
-  height = 30,
-  depth = 2.75,
+  height = 25,
+  depth = 1.5,
   bottomExtraSturdiness = 4,
   topExtraSturdiness = 2,
-  extraDistanceFromWall = 3,
+  extraDistanceFromWall = 0.7,
+  edgePadding = 4.3,
   cutoutPadding = 4,
   $fn = 20
 );
