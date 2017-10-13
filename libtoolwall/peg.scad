@@ -6,12 +6,12 @@ use <../utilities/screwHole.scad>;
 // Example:
 peg(
   length = 6,
-  diameter = 4,
-  padding = 5,
-  endTwistDeg = 9,
+  diameter = 5,
+  padding = 4,
+  endTwistDeg = 15,
   endTwistLength = 2,
-  middlePaddingAdjust = -3,
-  $fn = 25
+  middlePaddingAdjust = -1,
+  $fn = 20
 );
 
 module peg(
@@ -22,7 +22,6 @@ module peg(
   endTwistLength = 0,
   middlePaddingAdjust = 0
 ) {
-
   middlePadding = padding + middlePaddingAdjust;
   biggestD = diameter > SCREW_HEAD_DIAMETER ? diameter : SCREW_HEAD_DIAMETER; // which diameter dominates
   mountWidth = padding + biggestD + padding; // left to right
