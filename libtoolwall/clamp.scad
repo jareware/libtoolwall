@@ -1,7 +1,7 @@
 include <../config.scad>;
 
 use <../primitives/roundedCube.scad>;
-use <../utilities/screwHole.scad>;
+use <../utilities/autoScrewHoles.scad>;
 
 // Example:
 clamp(
@@ -22,6 +22,7 @@ module clamp(
   bottomExtraSturdiness = 0,
   topExtraSturdiness = 0,
   extraDistanceFromWall = 0,
+  edgePadding = 5,
   cutoutPadding = 0
 ) {
   wallThickBot = WALL_THICKNESS + bottomExtraSturdiness;
@@ -47,10 +48,11 @@ module clamp(
     }
 
     // Add screw holes:
-    translate([ mountWidth / 2, mountHeight - SCREW_ACCESS_DIAMETER / 2 - wallThickBot, 0 ])
-    screwHole();
-    translate([ mountWidth / 2, wallThickBot + SCREW_ACCESS_DIAMETER / 2, 0 ])
-    screwHole();
+    autoScrewHoles(
+      areaWidth = mountWidth,
+      areaHeight = mountHeight,
+      padding = edgePadding
+    );
 
   }
 
